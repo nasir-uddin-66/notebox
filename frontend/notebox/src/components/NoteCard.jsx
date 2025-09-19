@@ -1,17 +1,15 @@
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
-import axios from "axios";
 import { Link } from "react-router";
 import { toast } from "react-hot-toast";
+import api from "../lib/axios.js";
 
 export default function NoteCard({ note, setNotes }) {
   const handleDeletion = async (id) => {
     if (!confirm("Do you really want to delete this note?")) return;
     try {
-      let deletedNote = await axios.delete(
-        `http://localhost:5000/api/notes/${id}`
-      );
+      let deletedNote = await api.delete(`/notes/${id}`);
       toast.success(deletedNote.data.message);
       setNotes((prev) => prev.filter((note) => note._id !== id));
     } catch (error) {

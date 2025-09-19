@@ -3,8 +3,8 @@ import Card from "@mui/material/Card";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
-import axios from "axios";
 import { useNavigate } from "react-router";
+import api from "../lib/axios.js";
 
 export default function CreatePage() {
   const navigate = useNavigate();
@@ -20,7 +20,7 @@ export default function CreatePage() {
     }
 
     try {
-      let note = await axios.post("http://localhost:5000/api/notes", {
+      let note = await api.post("/notes", {
         title,
         content,
       });

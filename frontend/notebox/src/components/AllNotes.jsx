@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import NoteCard from "./NoteCard";
-import axios from "axios";
+import api from "../lib/axios.js";
 
 export default function AllNotes() {
   let [notes, setNotes] = useState([]);
 
   useEffect(() => {
     const fetchNotes = async () => {
-      const allNotes = await axios.get("http://localhost:5000/api/notes");
+      const allNotes = await api.get("/notes");
       setNotes(allNotes.data);
     };
 

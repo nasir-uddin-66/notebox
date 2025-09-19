@@ -3,9 +3,9 @@ import Card from "@mui/material/Card";
 import { useState, useEffect } from "react";
 import toast from "react-hot-toast";
 import { Link } from "react-router";
-import axios from "axios";
 import { useNavigate } from "react-router";
 import { useParams } from "react-router";
+import api from "../lib/axios.js";
 
 export default function UpdatePage() {
   let { id } = useParams();
@@ -16,7 +16,7 @@ export default function UpdatePage() {
   useEffect(() => {
     async function fetchNotes() {
       try {
-        let response = await axios.get(`http://localhost:5000/api/notes/${id}`);
+        let response = await api.get(`/notes/${id}`);
         setTitle(response.data.title);
         setContent(response.data.content);
       } catch (error) {
@@ -37,7 +37,7 @@ export default function UpdatePage() {
     }
 
     try {
-      let response = await axios.put(`http://localhost:5000/api/notes/${id}`, {
+      let response = await api.put(`/notes/${id}`, {
         title,
         content,
       });

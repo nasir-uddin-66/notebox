@@ -3,15 +3,30 @@ import dotenv from "dotenv";
 import connectDB from "./config/db.js";
 import cors from "cors";
 import notesRouter from "./routes/notes.route.js";
+import path from "path";
 const app = express();
 
 dotenv.config();
 
 //middleware
-app.use(cors());
+if (process.env.NODE_ENV !== "production") {
+  app.use(cors());
+}
 app.use(express.json());
 
+const __dirname = path.resolve();
+
 app.use("/api/notes", notesRouter);
+
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/notebox/dist")));
+
+  app.get(/.*/, (req, res) => {
+    res.sendFile(
+      path.join(__dirname, "../frontend", "notebox", "dist", "index.html")
+    );
+  });
+}
 
 connectDB()
   .then(() => {
